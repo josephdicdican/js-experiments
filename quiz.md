@@ -46,6 +46,7 @@ Input/Output
 * [input] array.integer inputArray An array of integers containing at least two elements. Constraints: 2 ≤ inputArray.length ≤ 10, -1000 ≤ inputArray[i] ≤ 1000. 
 * [output] integer The largest product of adjacent elements. 
 
+```
 function adjacentElementsProduct(input) {
     if(input.length > 1 && input.length < 11) {
         var not_valid = input.filter(function(inp) {
@@ -68,3 +69,4 @@ function adjacentElementsProduct(input) {
 }
 
 adjacentElementsProduct([3, 6, -2, -5, 7, 3])
+```
