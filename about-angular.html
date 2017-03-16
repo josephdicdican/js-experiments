@@ -18,6 +18,7 @@
 <body ng-app="learnAngular">
     <div ng-controller="CodeFun" class="container">
         <div class="row">
+            <h3>Let's code Angular</h3>
             <div ng-show="isScreen('add')" class="col-md-12">
                 <form ng-submit="addStudent()">
                     First name: <input type="text" ng-model="new_student.first_name"><br>
@@ -35,22 +36,25 @@
 
         <div class="row">
             <div class="col-md-4">
-                <h4>Master list <small><a href="#" ng-click="show('add')">new</a></small></h4>
+                <h4>Master list <small>[<a href="#" ng-click="show('add')">new</a>]</small></h4>
                 <p>
                     Query: <input type="text" ng-model="query" ng-keyup="searchStudent()">
                 </p>
                 <ul class="unstyled" ng-repeat="(key, student) in student_list_computed">
-                    <li>{{ key+1 }}. <a href="#" ng-click="viewStudent(student)">{{ student.fullName() }}</a></li>
+                    <li>{{ key+1 }}. <a href="#" ng-click="viewStudent(student); show('view')">{{ student.fullName() }}</a></li>
                 </ul>
             </div>
-            <div ng-show="hasStudent()" class="col-md-3">
+
+            <div ng-show="hasStudent() && isScreen('view')" class="col-md-3">
                 <h3>
                     Student Info
                     <small>
                         <a href="#" ng-click="viewStudent(0)">close</a>
+                        <a href="#" ng-click="editStudent(student); show('edit')">edit</a>
                     </small>
                 </h3>
                 <div class="well">
+                    <p>School ID: <b>{{ student.id }}</b></p>
                     <p>Fullname: <b>{{ student.fullName() }}</b></p>
                     <p>Gender: <b>{{ student.gender | uppercase }}</b></p>
                     <p>
@@ -68,6 +72,22 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+            
+            <div ng-show="hasStudent() && isScreen('edit')" class="col-md-12">
+                <h4>Edit Student "{{edit_student.first_name}}"</h4>
+
+                <form ng-submit="saveStudent(edit_student)">
+                    First name: <input type="text" ng-model="edit_student.first_name"><br>
+                    Last name: <input type="text" ng-model="edit_student.last_name"><br>
+                    Gender:
+                    <select ng-model="edit_student.gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select><br>
+                    <button class="btn" type="submit">Edit student</button>
+                    <button class="btn" type="button" ng-click="show(0)">Cancel</button>
+                </form>                
             </div>
 
         </div>

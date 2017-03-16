@@ -13,6 +13,7 @@ console.log(persons, names, lowercase, uppercase);
 
 var student_master_list = [
     {
+        id: 1001,
         first_name : "Joseph",
         last_name : "Dicdican",
         gender: 'male',
@@ -24,6 +25,7 @@ var student_master_list = [
         }
     },
     {
+        id: 1002,
         first_name : "Tressa",
         last_name : "Pradilla",
         gender: "female",
@@ -36,6 +38,7 @@ var student_master_list = [
         }
     },
     {
+        id: 1003,
         first_name : "Another Dev",
         last_name : "Hmmm",
         gender: 'male',
@@ -47,6 +50,7 @@ var student_master_list = [
         }
     },
     {
+        id: 1004,
         first_name : "Lorem",
         last_name : "Ipsum",
         gender: "female",
@@ -76,6 +80,7 @@ learnAngular.controller('CodeFun', function($scope){
                 return this.first_name + " " + this.last_name;
             }
         };
+        $scope.edit_student = {};
 
         $scope.screen = false;
         $scope.query = "";
@@ -106,6 +111,17 @@ learnAngular.controller('CodeFun', function($scope){
                 alert('Not valid');
             }
         };
+
+        $scope.editStudent = function(student) {
+            $scope.edit_student = student;
+            $scope.student = {};
+        };
+
+        $scope.saveStudent = function(student) {
+            $scope.student = student;
+            $scope.editStudent({});
+            $scope.show(0);
+        }
 
         $scope.searchStudent = function() {
             var list = $scope.query != "" ? $scope.student_list_computed.filter(function(student) {

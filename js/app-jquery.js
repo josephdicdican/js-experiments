@@ -49,6 +49,6 @@ $(function() {
             return lang.trim() !='' ? '<li>'+lang.trim()+'</li>' : '';
         });
 
-        $('.languages').html('<ul>'+output.join('')+'</ul>');
+        $('.languages').html('<ul>'+output.join('').toUpperCase()+'</ul>');
     });
 });
