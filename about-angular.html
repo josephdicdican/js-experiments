@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Learn Angular</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <style type="text/css">
+        body {
+            margin: 30px 0;
+        }
+        .text-danger {
+          color: red;
+        }
+        .text-success {
+          color: green;
+        }
+    </style>
+</head>
+<body ng-app="learnAngular">
+    <div ng-controller="CodeFun" class="container">
+        <div class="row">
+            <div ng-show="isScreen('add')" class="col-md-12">
+                <form ng-submit="addStudent()">
+                    First name: <input type="text" ng-model="new_student.first_name"><br>
+                    Last name: <input type="text" ng-model="new_student.last_name"><br>
+                    Gender:
+                    <select ng-model="new_student.gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select><br>
+                    <button class="btn" type="submit">Add student</button>
+                    <button class="btn" type="button" ng-click="show(0)">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Master list <small><a href="#" ng-click="show('add')">new</a></small></h4>
+                <p>
+                    Query: <input type="text" ng-model="query" ng-keyup="searchStudent()">
+                </p>
+                <ul class="unstyled" ng-repeat="(key, student) in student_list_computed">
+                    <li>{{ key+1 }}. <a href="#" ng-click="viewStudent(student)">{{ student.fullName() }}</a></li>
+                </ul>
+            </div>
+            <div ng-show="hasStudent()" class="col-md-3">
+                <h3>
+                    Student Info
+                    <small>
+                        <a href="#" ng-click="viewStudent(0)">close</a>
+                    </small>
+                </h3>
+                <div class="well">
+                    <p>Fullname: <b>{{ student.fullName() }}</b></p>
+                    <p>Gender: <b>{{ student.gender | uppercase }}</b></p>
+                    <p>
+                        <ng-pluralize
+                            count="student.subjects.length" 
+                            when="{0: 'Subject', 1: 'Subject', 'other': 'Subjects'}"
+                            offset=""></ng-pluralize>:
+                        <i ng-if="student.subjects.length == 0">(none)</i>
+                        <b ng-if="student.subjects.length > 0" ng-bind="student.subjects.length"></b>
+                    </p>
+                    <ul ng-repeat="(key, subj) in student.subjects">
+                        <li>
+                            {{ subj.name }}
+                            (<b ng-class="subj.marks < 75 ? 'text-danger' : 'text-success'">{{subj.marks}}%</b>)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="js/angular.js" type="text/javascript"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+</body>
+</html>
