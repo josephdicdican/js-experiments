@@ -64,7 +64,7 @@
             "description": "Pet object that needs to be added to the store",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Pet"
+              "$ref": "#/definitions/stackoverflow2"
             }
           }
         ],
@@ -1012,6 +1012,20 @@
         "name": "Pet"
       }
     },
+    "stackoverflow2" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/stackoverflow2_inner"
+      }
+    },
+    "stackoverflow2_inner" : {
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "name of the object"
+        }
+      }
+    }
     "ApiResponse": {
       "type": "object",
       "properties": {
