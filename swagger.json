@@ -1025,7 +1025,7 @@
           "description" : "name of the object"
         }
       }
-    }
+    },
     "ApiResponse": {
       "type": "object",
       "properties": {
