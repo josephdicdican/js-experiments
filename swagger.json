@@ -435,11 +435,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Customer/User not found"
+          "400_NotFound": {
+            "description": "Customer/User not found."
           },
-          "405": {
-            "description": "Invalid input"
+          "400_ValidationException": {
+            "description": "Invalid input."
           }
         },
         "security": [
@@ -458,7 +458,7 @@
           "ticket active free member"
         ],
         "summary": "Add Customer ARP Email",
-        "description": "Add ARP Email to specified customer. Do checking if viewed emails reached 20% from overall emails. Creates ticket (active free member type) if condition is true.",
+        "description": "Add ARP Email to specified customer. Do checking if viewed emails reached 20% from overall emails. <br>Creates ticket (active free member type) if condition is true.",
         "operationId": "addCustomerArpEmail",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -499,8 +499,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Customer/User not found. / Invalid input."
+          "400_NotFound": {
+            "description": "Customer/User not found."
+          },
+          "400_ValidationException": {
+            "description": "Invalid input."
           }
         },
         "security": [
@@ -519,7 +522,7 @@
           "ticket active free member"
         ],
         "summary": "Update Customer ARP Email",
-        "description": "Update ARP Email to specified customer. Do checking if viewed emails reached 20% from overall emails. Creates ticket (active free member type) if condition is true.",
+        "description": "Update ARP Email to specified customer. Do checking if viewed emails reached 20% from overall emails. <br>Creates ticket (active free member type) if condition is true.",
         "operationId": "updateCustomerArpEmail",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -567,8 +570,62 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Customer/User not found. / Invalid input."
+          "400_NotFound": {
+            "description": "Customer/User not found."
+          },
+          "400_ValidationException": {
+            "description": "Invalid input."
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/tickets/active-free-member/webpage-visits": {
+      "post": {
+        "tags": [
+          "ticket active free member"
+        ],
+        "summary": "Add Webpage visits & Active Free Member ticket",
+        "description": "Adds webpage visits records. Creates active free member ticket.",
+        "operationId": "addCustomerArpEmail",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "body",
+            "description": "Valid customer id"
+          },
+          {
+            "name": "customer_webpage_visits_data",
+            "in": "body",
+            "description": "List of customer webpage visits",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#definitions/WebpageVisit"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400_NotFound": {
+            "description": "Customer/User not found."
+          },
+          "400_ValidationException": {
+            "description": "Invalid input."
           }
         },
         "security": [
@@ -766,7 +823,6 @@
     "ticket_id": {
       "name": "ticket_id",
       "in": "formData",
-      "required": true,
       "description": "Ticket id",
       "type": "integer"
     },
@@ -804,6 +860,37 @@
       },
       "xml": {
         "name": "User"
+      }
+    },
+    "WebpageVisit": {
+      "type": "object",
+      "properties": {
+        "ticket_id": {
+          "type": "integer"
+        },
+        "customer_id": {
+          "type": "integer"
+        },
+        "product_id": {
+          "type": "integer"
+        },
+        "product_name": {
+          "type": "string"
+        },
+        "datetime_clicked": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "page_url": {
+          "type": "string"
+        },
+        "visited_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "xml": {
+        "name": "WebpageVisit"
       }
     }
   },
