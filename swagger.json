@@ -1,906 +1,1022 @@
 {
-  "swagger": "2.0",
-  "info": {
-    "description": "This is a documentation for external API endpoints for KFE-CRM application.",
-    "version": "1.0.0",
-    "title": "KFE CRM",
-    "termsOfService": "http://swagger.io/terms/"
-  },
-  "host": "kfe.idearobin.com",
-  "basePath": "/api/v1/external",
-  "tags": [
-    {
-      "name": "customer",
-      "description": "Resource for external customer CRUD"
-    },
-    {
-      "name": "customer products",
-      "description": "Resource for external customer products"
-    },
-    {
-      "name": "ticket age test",
-      "description": "Resource for external ticket age test type creation"
-    },
-    {
-      "name": "ticket active free member",
-      "description": "Resource for external ticket with type active free member"
-    },
-    {
-      "name": "ticket multiple product click",
-      "description": "Resource for external ticket with type multiple product click"
-    }
-  ],
-  "schemes": [
-    "https"
-  ],
-  "paths": {
-    "/customer": {
-      "get": {
-        "tags": [
-          "customer"
-        ],
-        "summary": "Show customer list",
-        "description": "Lists all customer records",
-        "operationId": "getCustomers",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/per_page"
-          },
-          {
-            "name": "uid",
-            "in": "query",
-            "description": "Customer id",
-            "type": "integer"
-          },
-          {
-            "name": "email_address",
-            "in": "query",
-            "description": "Customer email address",
-            "type": "string"
-          },
-          {
-            "name": "username",
-            "in": "query",
-            "description": "Customer username",
-            "type": "string"
-          },
-          {
-            "name": "phone",
-            "in": "query",
-            "description": "Customer phone number",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of customers",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Customer"
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
+   "swagger": "2.0",
+   "info": {
+      "description": "This is a documentation for external API endpoints for KFE-CRM application.",
+      "version": "1.0.0",
+      "title": "KFE CRM",
+      "termsOfService": "http://swagger.io/terms/"
+   },
+   "host": "kfe.idearobin.com",
+   "basePath": "/api/v1/external",
+   "tags": [
+      {
+         "name": "customer",
+         "description": "Resource for external customer CRUD"
       },
-      "post": {
-        "tags": [
-          "customer"
-        ],
-        "summary": "Creates new customer",
-        "description": "Store a new customer record. Creates a billing address for the customer.",
-        "operationId": "addCustomer",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/first_name"
-          },
-          {
-            "$ref": "#/parameters/last_name"
-          },
-          {
-            "$ref": "#/parameters/email_address"
-          },
-          {
-            "$ref": "#/parameters/phone"
-          },
-          {
-            "$ref": "#/parameters/age_test"
-          },
-          {
-            "$ref": "#/parameters/age_test_date"
-          },
-          {
-            "$ref": "#/parameters/company"
-          },
-          {
-            "$ref": "#/parameters/street1"
-          },
-          {
-            "$ref": "#/parameters/street2"
-          },
-          {
-            "$ref": "#/parameters/city"
-          },
-          {
-            "$ref": "#/parameters/zone"
-          },
-          {
-            "$ref": "#/parameters/postal_code"
-          }
-        ],
-        "responses": {
-          "400": {
-            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
-      }
-    },
-    "/customer/{customer_id}": {
-      "get": {
-        "tags": [
-          "customer"
-        ],
-        "summary": "Show customer",
-        "description": "Show a specific customer record",
-        "operationId": "getCustomer",
-        "parameters": [
-          {
-            "$ref": "#/parameters/customer_id"
-          },
-          {
-            "name": "with_tabs_data",
-            "in": "query",
-            "description": "Includes ARP Views and Webpage visits records for the customer",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "with_items",
-            "in": "query",
-            "description": "Includes customer products & services records availed",
-            "required": false,
-            "type": "boolean"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Customer record",
-            "schema": {
-              "$ref": "#/definitions/Customer"
-            }
-          },
-          "400": {
-            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
+      {
+         "name": "customer products",
+         "description": "Resource for external customer products"
       },
-      "put": {
-        "tags": [
-          "customer"
-        ],
-        "summary": "Update customer",
-        "description": "Update a specific customer record. Updates customer's billing address as well.",
-        "operationId": "updateCustomer",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/customer_id"
-          },
-          {
-            "$ref": "#/parameters/first_name"
-          },
-          {
-            "$ref": "#/parameters/last_name"
-          },
-          {
-            "$ref": "#/parameters/email_address"
-          },
-          {
-            "$ref": "#/parameters/phone"
-          },
-          {
-            "$ref": "#/parameters/age_test"
-          },
-          {
-            "$ref": "#/parameters/age_test_date"
-          },
-          {
-            "$ref": "#/parameters/company"
-          },
-          {
-            "$ref": "#/parameters/street1"
-          },
-          {
-            "$ref": "#/parameters/street2"
-          },
-          {
-            "$ref": "#/parameters/city"
-          },
-          {
-            "$ref": "#/parameters/zone"
-          },
-          {
-            "$ref": "#/parameters/postal_code"
-          }
-        ],
-        "responses": {
-          "400": {
-            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
+      {
+         "name": "ticket age test",
+         "description": "Resource for external ticket age test type creation"
       },
-      "delete": {
-        "tags": [
-          "customer"
-        ],
-        "summary": "Delete customer",
-        "description": "Delete a specified customer record",
-        "operationId": "deleteCustomer",
-        "parameters": [
-          {
-            "$ref": "#/parameters/customer_id"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Customer record deleted",
-            "schema": {
-              "$ref": "#/definitions/Customer"
-            }
-          },
-          "400": {
-            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
-      }
-    },
-    "/customer/{customer_id}/products": {
-      "post": {
-        "tags": [
-          "customer products"
-        ],
-        "summary": "Add product to specified customer.",
-        "description": "Add product to specified customer. Identifies product level based on product added.",
-        "operationId": "addCustomerProduct",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/customer_id"
-          },
-          {
-            "name": "reference_id",
-            "in": "formData",
-            "required": true,
-            "description": "Refers to product id",
-            "type": "integer"
-          },
-          {
-            "name": "name",
-            "in": "formData",
-            "required": true,
-            "description": "Product name",
-            "type": "integer"
-          },
-          {
-            "name": "description",
-            "in": "formData",
-            "description": "Product description",
-            "type": "integer"
-          },
-          {
-            "name": "availed_at",
-            "in": "formData",
-            "description": "Refers to product id",
-            "type": "string",
-            "format": "date-time"
-          },
-          {
-            "name": "status",
-            "in": "formData",
-            "description": "Active for 1, not active for 0",
-            "type": "boolean"
-          }
-        ],
-        "responses": {
-          "400": {
-            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
-      }
-    },
-    "/customer/{customer_id}/products/{customer_product_id}": {
-      "delete": {
-        "tags": [
-          "customer products"
-        ],
-        "summary": "Remove product from specified customer.",
-        "description": "Remove product from specified customer. Identifies product level based on existing latest product previously availed.",
-        "operationId": "deleteCustomerProduct",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/customer_id"
-          },
-          {
-            "name": "customer_product_id",
-            "in": "path",
-            "required": true,
-            "description": "Customer product id",
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
-      }
-    },
-    "/tickets/age-test": {
-      "post": {
-        "tags": [
-          "ticket age test"
-        ],
-        "summary": "Creates new Age Test ticket",
-        "description": "Creates new age test ticket. Updates customer age test fields",
-        "operationId": "storeAgeTestTicket",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/uid"
-          },
-          {
-            "$ref": "#/parameters/ticket_age_test"
-          },
-          {
-            "$ref": "#/parameters/ticket_age_test_date"
-          },
-          {
-            "$ref": "#/parameters/ip_address"
-          },
-          {
-            "$ref": "#/parameters/phone"
-          },
-          {
-            "$ref": "#/parameters/staff_id"
-          },
-          {
-            "$ref": "#/parameters/state_id"
-          }
-        ],
-        "responses": {
-          "400": {
-            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
-      }
-    },
-    "/tickets/active-free-member/arp-emails": {
-      "post": {
-        "tags": [
-          "ticket active free member"
-        ],
-        "summary": "Add Customer ARP Email",
-        "description": "Add ARP Email to specified customer. Do checking if viewed emails reached 20% from overall emails. <br>Creates ticket (active free member type) if condition is true.",
-        "operationId": "addCustomerArpEmail",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ticket_customer_id"
-          },
-          {
-            "$ref": "#/parameters/email_reference_id"
-          },
-          {
-            "$ref": "#/parameters/email_subject"
-          },
-          {
-            "$ref": "#/parameters/email_content"
-          },
-          {
-            "$ref": "#/parameters/email_date"
-          },
-          {
-            "$ref": "#/parameters/email_view_status"
-          },
-          {
-            "$ref": "#/parameters/ip_address"
-          },
-          {
-            "$ref": "#/parameters/phone"
-          },
-          {
-            "$ref": "#/parameters/staff_id"
-          },
-          {
-            "$ref": "#/parameters/state_id"
-          }
-        ],
-        "responses": {
-          "400": {
-            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
-      }
-    },
-    "/tickets/active-free-member/arp-emails/{arp_email_id}": {
-      "put": {
-        "tags": [
-          "ticket active free member"
-        ],
-        "summary": "Update Customer ARP Email",
-        "description": "Update ARP Email to specified customer. Do checking if viewed emails reached 20% from overall emails. <br>Creates ticket (active free member type) if condition is true.",
-        "operationId": "updateCustomerArpEmail",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "arp_email_id",
-            "in": "path",
-            "required": true,
-            "description": "Customer ARP email id",
-            "type": "integer"
-          },
-          {
-            "$ref": "#/parameters/ticket_customer_id"
-          },
-          {
-            "$ref": "#/parameters/email_subject"
-          },
-          {
-            "$ref": "#/parameters/email_content"
-          },
-          {
-            "$ref": "#/parameters/email_date"
-          },
-          {
-            "$ref": "#/parameters/email_view_status"
-          },
-          {
-            "$ref": "#/parameters/ip_address"
-          },
-          {
-            "$ref": "#/parameters/phone"
-          },
-          {
-            "$ref": "#/parameters/staff_id"
-          },
-          {
-            "$ref": "#/parameters/state_id"
-          },
-          {
-            "$ref": "#/parameters/ticket_id"
-          }
-        ],
-        "responses": {
-          "400": {
-            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
-      }
-    },
-    "/tickets/active-free-member/webpage-visits": {
-      "post": {
-        "tags": [
-          "ticket active free member"
-        ],
-        "summary": "Add Webpage visits & Active Free Member ticket",
-        "description": "Adds webpage visits records. Creates active free member ticket.",
-        "operationId": "addWebpageVisitAFMTicket",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "webpage_visit_input",
-            "in": "body",
-            "description": "Webpage input to be created",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/WebpageVisit"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
-      }
-    },
-    "/tickets/multiple-product-click": {
-      "post": {
-        "tags": [
-          "ticket multiple product click"
-        ],
-        "summary": "Creates new Multiple Product Click ticket",
-        "description": "Creates new Multiple Product Click ticket",
-        "operationId": "addMultipleProductClickTicket",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "multiple_product_click_input",
-            "in": "body",
-            "description": "Multiple product click to be created",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/WebpageVisit"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
-          },
-          "401": {
-            "$ref": "#/responses/Standard401Unauthorized"
-          }
-        }
-      }
-    }
-  },
-  "securityDefinitions": {
-    "api_key": {
-      "type": "apiKey",
-      "name": "X-Token",
-      "in": "header"
-    }
-  },
-  "security": [
-    {
-      "api_key": [
-
-      ]
-    }
-  ],
-  "parameters": {
-    "per_page": {
-      "name": "per_page",
-      "in": "query",
-      "description": "Number of items to show per page.",
-      "type": "integer"
-    },
-    "customer_id": {
-      "name": "customer_id",
-      "in": "path",
-      "description": "Customer id",
-      "required": true,
-      "type": "integer",
-      "format": "int64"
-    },
-    "first_name": {
-      "name": "first_name",
-      "in": "formData",
-      "required": true,
-      "description": "Customer first name",
-      "type": "string"
-    },
-    "last_name": {
-      "name": "last_name",
-      "in": "formData",
-      "required": true,
-      "description": "Customer last name",
-      "type": "integer"
-    },
-    "email_address": {
-      "name": "email_address",
-      "in": "formData",
-      "required": true,
-      "description": "Customer valid email address",
-      "type": "string"
-    },
-    "age_test": {
-      "name": "age_test",
-      "in": "formData",
-      "description": "Customer age test que (1 if taken age test else 0)",
-      "type": "boolean"
-    },
-    "age_test_date": {
-      "name": "age_test_date",
-      "in": "formData",
-      "description": "Date customer took age test",
-      "type": "string",
-      "format": "date-time"
-    },
-    "company": {
-      "name": "company",
-      "in": "formData",
-      "description": "Customer company (for billing address info)",
-      "type": "string"
-    },
-    "street1": {
-      "name": "street1",
-      "in": "formData",
-      "description": "Customer street 1 (for billing address info)",
-      "type": "string"
-    },
-    "street2": {
-      "name": "street2",
-      "in": "formData",
-      "description": "Customer street 2 (for billing address info)",
-      "type": "string"
-    },
-    "city": {
-      "name": "city",
-      "in": "formData",
-      "description": "Customer city (for billing address info)",
-      "type": "string"
-    },
-    "zone": {
-      "name": "zone",
-      "in": "formData",
-      "description": "Customer zone (for billing address info)",
-      "type": "integer"
-    },
-    "postal_code": {
-      "name": "postal_code",
-      "in": "formData",
-      "description": "Customer postal code (for billing address info)",
-      "type": "string"
-    },
-    "ip_address": {
-      "name": "ip_address",
-      "in": "formData",
-      "description": "IP Address",
-      "type": "string"
-    },
-    "staff_id": {
-      "name": "staff_id",
-      "in": "formData",
-      "description": "Valid staff id",
-      "type": "integer"
-    },
-    "state_id": {
-      "name": "state_id",
-      "in": "formData",
-      "description": "Valid state id ( [1 => Open, 2 => In Progress, 3 => Resolved, 4 => Drop Cancel]; )",
-      "type": "integer"
-    },
-    "uid": {
-      "name": "uid",
-      "in": "formData",
-      "description": "Refers to customer id",
-      "required": true,
-      "type": "integer"
-    },
-    "phone": {
-      "name": "phone",
-      "in": "formData",
-      "description": "Phone number",
-      "type": "string"
-    },
-    "ticket_age_test": {
-      "name": "age_test",
-      "in": "formData",
-      "required": true,
-      "description": "Customer age test que (1 if taken age test else 0)",
-      "type": "boolean"
-    },
-    "ticket_age_test_date": {
-      "name": "age_test_date",
-      "in": "formData",
-      "required": true,
-      "description": "Date customer took age test",
-      "type": "string",
-      "format": "date-time"
-    },
-    "email_subject": {
-      "name": "email_subject",
-      "in": "formData",
-      "required": true,
-      "description": "Email subject",
-      "type": "string"
-    },
-    "email_content": {
-      "name": "email_content",
-      "in": "formData",
-      "required": true,
-      "description": "Email content",
-      "type": "string"
-    },
-    "email_date": {
-      "name": "email_date",
-      "in": "formData",
-      "required": true,
-      "description": "Date of email",
-      "type": "string",
-      "format": "date-time"
-    },
-    "email_reference_id": {
-      "name": "reference_id",
-      "in": "formData",
-      "description": "Email id",
-      "type": "integer"
-    },
-    "email_view_status": {
-      "name": "view_status",
-      "in": "formData",
-      "description": "Email view status",
-      "type": "boolean"
-    },
-    "ticket_id": {
-      "name": "ticket_id",
-      "in": "formData",
-      "description": "Ticket id",
-      "type": "integer"
-    },
-    "ticket_customer_id": {
-      "name": "customer_id",
-      "in": "formData",
-      "description": "Customer id",
-      "required": true,
-      "type": "integer"
-    }
-  },
-  "responses": {
-    "CustomerNotFoundOrInvalidInput": {
-      "description": "Customer/User not found. <br>Invalid input."
-    },
-    "Standard401Unauthorized": {
-      "description": "Unauthorized access"
-    }
-  },
-  "definitions": {
-    "Customer": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "username": {
-          "type": "string"
-        },
-        "first_name": {
-          "type": "string"
-        },
-        "last_name": {
-          "type": "string"
-        },
-        "email_address": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        }
+      {
+         "name": "ticket active free member",
+         "description": "Resource for external ticket with type active free member"
       },
-      "xml": {
-        "name": "User"
-      }
-    },
-    "WebpageVisit": {
-      "type": "object",
-      "required": [
-        "customer_id",
-        "customer_webpage_visits_data"
-      ],
-      "properties": {
-        "customer_id": {
-          "type": "integer"
-        },
-        "customer_webpage_visits_data": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/WebpageVisitData"
-          }
-        }
+      {
+         "name": "ticket multiple product click",
+         "description": "Resource for external ticket with type multiple product click"
       },
-      "xml": {
-        "name": "WebpageVisit"
+      {
+         "name": "ticket uncompleted",
+         "description": "Resource for external ticket with type uncompleted order"
+      },
+      {
+         "name": "ticket",
+         "description": "Resource for external ticket creation (generic)"
       }
-    },
-    "WebpageVisitData": {
-      "type": "object",
-      "properties": {
-        "ticket_id": {
-          "type": "integer"
-        },
-        "customer_id": {
-          "type": "integer"
-        },
-        "product_id": {
-          "type": "integer"
-        },
-        "product_name": {
-          "type": "string"
-        },
-        "datetime_clicked": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "page_url": {
-          "type": "string"
-        },
-        "visited_at": {
-          "type": "string",
-          "format": "date-time"
-        }
+   ],
+   "schemes": [
+      "https"
+   ],
+   "paths": {
+      "/customer": {
+         "get": {
+            "tags": [
+               "customer"
+            ],
+            "summary": "Show customer list",
+            "description": "Lists all customer records",
+            "operationId": "getCustomers",
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "$ref": "#/parameters/per_page"
+               },
+               {
+                  "name": "uid",
+                  "in": "query",
+                  "description": "Customer id",
+                  "type": "integer"
+               },
+               {
+                  "name": "email_address",
+                  "in": "query",
+                  "description": "Customer email address",
+                  "type": "string"
+               },
+               {
+                  "name": "username",
+                  "in": "query",
+                  "description": "Customer username",
+                  "type": "string"
+               },
+               {
+                  "name": "phone",
+                  "in": "query",
+                  "description": "Customer phone number",
+                  "type": "string"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "List of customers",
+                  "schema": {
+                     "type": "array",
+                     "items": {
+                        "$ref": "#/definitions/Customer"
+                     }
+                  }
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         },
+         "post": {
+            "tags": [
+               "customer"
+            ],
+            "summary": "Creates new customer",
+            "description": "Store a new customer record. Creates a billing address for the customer.",
+            "operationId": "addCustomer",
+            "consumes": [
+               "application/x-www-form-urlencoded"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "$ref": "#/parameters/first_name"
+               },
+               {
+                  "$ref": "#/parameters/last_name"
+               },
+               {
+                  "$ref": "#/parameters/email_address"
+               },
+               {
+                  "$ref": "#/parameters/phone"
+               },
+               {
+                  "$ref": "#/parameters/age_test"
+               },
+               {
+                  "$ref": "#/parameters/age_test_date"
+               },
+               {
+                  "$ref": "#/parameters/company"
+               },
+               {
+                  "$ref": "#/parameters/street1"
+               },
+               {
+                  "$ref": "#/parameters/street2"
+               },
+               {
+                  "$ref": "#/parameters/city"
+               },
+               {
+                  "$ref": "#/parameters/zone"
+               },
+               {
+                  "$ref": "#/parameters/postal_code"
+               }
+            ],
+            "responses": {
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         }
+      },
+      "/customer/{customer_id}": {
+         "get": {
+            "tags": [
+               "customer"
+            ],
+            "summary": "Show customer",
+            "description": "Show a specific customer record",
+            "operationId": "getCustomer",
+            "parameters": [
+               {
+                  "$ref": "#/parameters/customer_id"
+               },
+               {
+                  "name": "with_tabs_data",
+                  "in": "query",
+                  "description": "Includes ARP Views and Webpage visits records for the customer",
+                  "required": false,
+                  "type": "boolean"
+               },
+               {
+                  "name": "with_items",
+                  "in": "query",
+                  "description": "Includes customer products & services records availed",
+                  "required": false,
+                  "type": "boolean"
+               }
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "Customer record",
+                  "schema": {
+                     "$ref": "#/definitions/Customer"
+                  }
+               },
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         },
+         "put": {
+            "tags": [
+               "customer"
+            ],
+            "summary": "Update customer",
+            "description": "Update a specific customer record. Updates customer's billing address as well.",
+            "operationId": "updateCustomer",
+            "consumes": [
+               "application/x-www-form-urlencoded"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "$ref": "#/parameters/customer_id"
+               },
+               {
+                  "$ref": "#/parameters/first_name"
+               },
+               {
+                  "$ref": "#/parameters/last_name"
+               },
+               {
+                  "$ref": "#/parameters/email_address"
+               },
+               {
+                  "$ref": "#/parameters/phone"
+               },
+               {
+                  "$ref": "#/parameters/age_test"
+               },
+               {
+                  "$ref": "#/parameters/age_test_date"
+               },
+               {
+                  "$ref": "#/parameters/company"
+               },
+               {
+                  "$ref": "#/parameters/street1"
+               },
+               {
+                  "$ref": "#/parameters/street2"
+               },
+               {
+                  "$ref": "#/parameters/city"
+               },
+               {
+                  "$ref": "#/parameters/zone"
+               },
+               {
+                  "$ref": "#/parameters/postal_code"
+               }
+            ],
+            "responses": {
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         },
+         "delete": {
+            "tags": [
+               "customer"
+            ],
+            "summary": "Delete customer",
+            "description": "Delete a specified customer record",
+            "operationId": "deleteCustomer",
+            "parameters": [
+               {
+                  "$ref": "#/parameters/customer_id"
+               }
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "Customer record deleted",
+                  "schema": {
+                     "$ref": "#/definitions/Customer"
+                  }
+               },
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         }
+      },
+      "/customer/{customer_id}/products": {
+         "post": {
+            "tags": [
+               "customer products"
+            ],
+            "summary": "Add product to specified customer.",
+            "description": "Add product to specified customer. Identifies product level based on product added.",
+            "operationId": "addCustomerProduct",
+            "consumes": [
+               "application/x-www-form-urlencoded"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "$ref": "#/parameters/customer_id"
+               },
+               {
+                  "name": "reference_id",
+                  "in": "formData",
+                  "required": true,
+                  "description": "Refers to product id",
+                  "type": "integer"
+               },
+               {
+                  "name": "name",
+                  "in": "formData",
+                  "required": true,
+                  "description": "Product name",
+                  "type": "integer"
+               },
+               {
+                  "name": "description",
+                  "in": "formData",
+                  "description": "Product description",
+                  "type": "integer"
+               },
+               {
+                  "name": "availed_at",
+                  "in": "formData",
+                  "description": "Refers to product id",
+                  "type": "string",
+                  "format": "date-time"
+               },
+               {
+                  "name": "status",
+                  "in": "formData",
+                  "description": "Active for 1, not active for 0",
+                  "type": "boolean"
+               }
+            ],
+            "responses": {
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         }
+      },
+      "/customer/{customer_id}/products/{customer_product_id}": {
+         "delete": {
+            "tags": [
+               "customer products"
+            ],
+            "summary": "Remove product from specified customer.",
+            "description": "Remove product from specified customer. Identifies product level based on existing latest product previously availed.",
+            "operationId": "deleteCustomerProduct",
+            "consumes": [
+               "application/x-www-form-urlencoded"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "$ref": "#/parameters/customer_id"
+               },
+               {
+                  "name": "customer_product_id",
+                  "in": "path",
+                  "required": true,
+                  "description": "Customer product id",
+                  "type": "integer"
+               }
+            ],
+            "responses": {
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         }
+      },
+      "/tickets": {
+         "post": {
+            "tags": [
+               "ticket"
+            ],
+            "summary": "Create new ticket of ticket type",
+            "description": "Creates new ticket of given ticket type (ticket_type_id)",
+            "operationId": "addTicket",
+            "consumes": [
+               "application/x-www-form-urlencoded"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "name": "ticket_type_id",
+                  "in": "formData",
+                  "required": true,
+                  "description": "Valid ticket type",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9
+               },
+               {
+                  "$ref": "#/parameters/ip_address"
+               },
+               {
+                  "$ref": "#/parameters/phone"
+               },
+               {
+                  "$ref": "#/parameters/staff_id"
+               },
+               {
+                  "$ref": "#/parameters/state_id"
+               }
+            ],
+            "responses": {
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         }
+      },
+      "/tickets/age-test": {
+         "post": {
+            "tags": [
+               "ticket age test"
+            ],
+            "summary": "Creates new Age Test ticket",
+            "description": "Creates new age test ticket. Updates customer age test fields",
+            "operationId": "storeAgeTestTicket",
+            "consumes": [
+               "application/x-www-form-urlencoded"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "$ref": "#/parameters/uid"
+               },
+               {
+                  "$ref": "#/parameters/ticket_age_test"
+               },
+               {
+                  "$ref": "#/parameters/ticket_age_test_date"
+               },
+               {
+                  "$ref": "#/parameters/ip_address"
+               },
+               {
+                  "$ref": "#/parameters/phone"
+               },
+               {
+                  "$ref": "#/parameters/staff_id"
+               },
+               {
+                  "$ref": "#/parameters/state_id"
+               }
+            ],
+            "responses": {
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         }
+      },
+      "/tickets/active-free-member/arp-emails": {
+         "post": {
+            "tags": [
+               "ticket active free member"
+            ],
+            "summary": "Add Customer ARP Email",
+            "description": "Add ARP Email to specified customer. Do checking if viewed emails reached 20% from overall emails. <br>Creates ticket (active free member type) if condition is true.",
+            "operationId": "addCustomerArpEmail",
+            "consumes": [
+               "application/x-www-form-urlencoded"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "$ref": "#/parameters/ticket_customer_id"
+               },
+               {
+                  "$ref": "#/parameters/email_reference_id"
+               },
+               {
+                  "$ref": "#/parameters/email_subject"
+               },
+               {
+                  "$ref": "#/parameters/email_content"
+               },
+               {
+                  "$ref": "#/parameters/email_date"
+               },
+               {
+                  "$ref": "#/parameters/email_view_status"
+               },
+               {
+                  "$ref": "#/parameters/ip_address"
+               },
+               {
+                  "$ref": "#/parameters/phone"
+               },
+               {
+                  "$ref": "#/parameters/staff_id"
+               },
+               {
+                  "$ref": "#/parameters/state_id"
+               }
+            ],
+            "responses": {
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         }
+      },
+      "/tickets/active-free-member/arp-emails/{arp_email_id}": {
+         "put": {
+            "tags": [
+               "ticket active free member"
+            ],
+            "summary": "Update Customer ARP Email",
+            "description": "Update ARP Email to specified customer. Do checking if viewed emails reached 20% from overall emails. <br>Creates ticket (active free member type) if condition is true.",
+            "operationId": "updateCustomerArpEmail",
+            "consumes": [
+               "application/x-www-form-urlencoded"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "name": "arp_email_id",
+                  "in": "path",
+                  "required": true,
+                  "description": "Customer ARP email id",
+                  "type": "integer"
+               },
+               {
+                  "$ref": "#/parameters/ticket_customer_id"
+               },
+               {
+                  "$ref": "#/parameters/email_subject"
+               },
+               {
+                  "$ref": "#/parameters/email_content"
+               },
+               {
+                  "$ref": "#/parameters/email_date"
+               },
+               {
+                  "$ref": "#/parameters/email_view_status"
+               },
+               {
+                  "$ref": "#/parameters/ip_address"
+               },
+               {
+                  "$ref": "#/parameters/phone"
+               },
+               {
+                  "$ref": "#/parameters/staff_id"
+               },
+               {
+                  "$ref": "#/parameters/state_id"
+               },
+               {
+                  "$ref": "#/parameters/ticket_id"
+               }
+            ],
+            "responses": {
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         }
+      },
+      "/tickets/active-free-member/webpage-visits": {
+         "post": {
+            "tags": [
+               "ticket active free member"
+            ],
+            "summary": "Add Webpage visits & Active Free Member ticket",
+            "description": "Adds webpage visits records. Creates active free member ticket.",
+            "operationId": "addWebpageVisitAFMTicket",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "name": "webpage_visit_input",
+                  "in": "body",
+                  "description": "Webpage input to be created",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/definitions/WebpageVisit"
+                  }
+               }
+            ],
+            "responses": {
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         }
+      },
+      "/tickets/multiple-product-click": {
+         "post": {
+            "tags": [
+               "ticket multiple product click"
+            ],
+            "summary": "Creates new Multiple Product Click ticket",
+            "description": "Creates new Multiple Product Click ticket",
+            "operationId": "addMultipleProductClickTicket",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "name": "multiple_product_click_input",
+                  "in": "body",
+                  "description": "Multiple product click to be created",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/definitions/WebpageVisit"
+                  }
+               }
+            ],
+            "responses": {
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         }
+      },
+      "/tickets/uncompleted": {
+         "post": {
+            "tags": [
+               "ticket uncompleted"
+            ],
+            "summary": "Create uncompleted order ticket",
+            "description": "Store a new uncompleted order record",
+            "operationId": "addUncompletedOrderTicket",
+            "consumes": [
+               "application/x-www-form-urlencoded"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "$ref": "#/parameters/uid"
+               },
+               {
+                  "name": "order_id",
+                  "in": "formData",
+                  "required": true,
+                  "description": "Order ID",
+                  "type": "integer"
+               },
+               {
+                  "name": "order_creation_date",
+                  "in": "formData",
+                  "required": true,
+                  "description": "Date of order was created",
+                  "type": "string"
+               },
+               {
+                  "name": "total_price",
+                  "in": "formData",
+                  "required": true,
+                  "description": "Total price of order",
+                  "type": "integer"
+               },
+               {
+                  "$ref": "#/parameters/ip_address"
+               },
+               {
+                  "$ref": "#/parameters/phone"
+               },
+               {
+                  "$ref": "#/parameters/staff_id"
+               },
+               {
+                  "$ref": "#/parameters/state_id"
+               }
+            ],
+            "responses": {
+               "400": {
+                  "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+               },
+               "401": {
+                  "$ref": "#/responses/Standard401Unauthorized"
+               }
+            }
+         }
       }
-    }
-  }
+   },
+   "securityDefinitions": {
+      "api_key": {
+         "type": "apiKey",
+         "name": "X-Token",
+         "in": "header"
+      }
+   },
+   "security": [
+      {
+         "api_key": []
+      }
+   ],
+   "parameters": {
+      "per_page": {
+         "name": "per_page",
+         "in": "query",
+         "description": "Number of items to show per page.",
+         "type": "integer",
+         "default": 5
+      },
+      "customer_id": {
+         "name": "customer_id",
+         "in": "path",
+         "description": "Customer id",
+         "required": true,
+         "type": "integer",
+         "format": "int64"
+      },
+      "first_name": {
+         "name": "first_name",
+         "in": "formData",
+         "required": true,
+         "description": "Customer first name",
+         "type": "string"
+      },
+      "last_name": {
+         "name": "last_name",
+         "in": "formData",
+         "required": true,
+         "description": "Customer last name",
+         "type": "integer"
+      },
+      "email_address": {
+         "name": "email_address",
+         "in": "formData",
+         "required": true,
+         "description": "Customer valid email address",
+         "type": "string"
+      },
+      "age_test": {
+         "name": "age_test",
+         "in": "formData",
+         "description": "Customer age test que (1 if taken age test else 0)",
+         "type": "boolean"
+      },
+      "age_test_date": {
+         "name": "age_test_date",
+         "in": "formData",
+         "description": "Date customer took age test",
+         "type": "string",
+         "format": "date-time"
+      },
+      "company": {
+         "name": "company",
+         "in": "formData",
+         "description": "Customer company (for billing address info)",
+         "type": "string"
+      },
+      "street1": {
+         "name": "street1",
+         "in": "formData",
+         "description": "Customer street 1 (for billing address info)",
+         "type": "string"
+      },
+      "street2": {
+         "name": "street2",
+         "in": "formData",
+         "description": "Customer street 2 (for billing address info)",
+         "type": "string"
+      },
+      "city": {
+         "name": "city",
+         "in": "formData",
+         "description": "Customer city (for billing address info)",
+         "type": "string"
+      },
+      "zone": {
+         "name": "zone",
+         "in": "formData",
+         "description": "Customer zone (for billing address info)",
+         "type": "integer"
+      },
+      "postal_code": {
+         "name": "postal_code",
+         "in": "formData",
+         "description": "Customer postal code (for billing address info)",
+         "type": "string"
+      },
+      "ip_address": {
+         "name": "ip_address",
+         "in": "formData",
+         "description": "IP Address",
+         "type": "string"
+      },
+      "staff_id": {
+         "name": "staff_id",
+         "in": "formData",
+         "description": "Valid staff id",
+         "type": "integer"
+      },
+      "state_id": {
+         "name": "state_id",
+         "in": "formData",
+         "description": "Valid state id ( [1 => Open, 2 => In Progress, 3 => Resolved, 4 => Drop Cancel]; )",
+         "type": "integer"
+      },
+      "uid": {
+         "name": "uid",
+         "in": "formData",
+         "description": "Refers to customer id",
+         "required": true,
+         "type": "integer"
+      },
+      "phone": {
+         "name": "phone",
+         "in": "formData",
+         "description": "Phone number",
+         "type": "string"
+      },
+      "ticket_age_test": {
+         "name": "age_test",
+         "in": "formData",
+         "required": true,
+         "description": "Customer age test que (1 if taken age test else 0)",
+         "type": "boolean"
+      },
+      "ticket_age_test_date": {
+         "name": "age_test_date",
+         "in": "formData",
+         "required": true,
+         "description": "Date customer took age test",
+         "type": "string",
+         "format": "date-time"
+      },
+      "email_subject": {
+         "name": "email_subject",
+         "in": "formData",
+         "required": true,
+         "description": "Email subject",
+         "type": "string"
+      },
+      "email_content": {
+         "name": "email_content",
+         "in": "formData",
+         "required": true,
+         "description": "Email content",
+         "type": "string"
+      },
+      "email_date": {
+         "name": "email_date",
+         "in": "formData",
+         "required": true,
+         "description": "Date of email",
+         "type": "string",
+         "format": "date-time"
+      },
+      "email_reference_id": {
+         "name": "reference_id",
+         "in": "formData",
+         "description": "Email id",
+         "type": "integer"
+      },
+      "email_view_status": {
+         "name": "view_status",
+         "in": "formData",
+         "description": "Email view status",
+         "type": "boolean"
+      },
+      "ticket_id": {
+         "name": "ticket_id",
+         "in": "formData",
+         "description": "Ticket id",
+         "type": "integer"
+      },
+      "ticket_customer_id": {
+         "name": "customer_id",
+         "in": "formData",
+         "description": "Customer id",
+         "required": true,
+         "type": "integer"
+      }
+   },
+   "responses": {
+      "CustomerNotFoundOrInvalidInput": {
+         "description": "Customer/User not found. <br>Invalid input."
+      },
+      "Standard401Unauthorized": {
+         "description": "Unauthorized access"
+      }
+   },
+   "definitions": {
+      "Customer": {
+         "type": "object",
+         "properties": {
+            "id": {
+               "type": "integer",
+               "format": "int64"
+            },
+            "username": {
+               "type": "string"
+            },
+            "first_name": {
+               "type": "string"
+            },
+            "last_name": {
+               "type": "string"
+            },
+            "email_address": {
+               "type": "string"
+            },
+            "phone": {
+               "type": "string"
+            }
+         },
+         "xml": {
+            "name": "User"
+         }
+      },
+      "WebpageVisit": {
+         "type": "object",
+         "required": [
+            "customer_id",
+            "customer_webpage_visits_data"
+         ],
+         "properties": {
+            "customer_id": {
+               "type": "integer"
+            },
+            "customer_webpage_visits_data": {
+               "type": "array",
+               "items": {
+                  "$ref": "#/definitions/WebpageVisitData"
+               }
+            }
+         },
+         "xml": {
+            "name": "WebpageVisit"
+         }
+      },
+      "WebpageVisitData": {
+         "type": "object",
+         "properties": {
+            "ticket_id": {
+               "type": "integer"
+            },
+            "customer_id": {
+               "type": "integer"
+            },
+            "product_id": {
+               "type": "integer"
+            },
+            "product_name": {
+               "type": "string"
+            },
+            "datetime_clicked": {
+               "type": "string",
+               "format": "date-time"
+            },
+            "page_url": {
+               "type": "string"
+            },
+            "visited_at": {
+               "type": "string",
+               "format": "date-time"
+            }
+         }
+      }
+   }
 }
