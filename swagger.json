@@ -24,6 +24,10 @@
     {
       "name": "ticket active free member",
       "description": "Resource for external ticket with type active free member"
+    },
+    {
+      "name": "ticket multiple product click",
+      "description": "Resource for external ticket with type multiple product click"
     }
   ],
   "schemes": [
@@ -74,11 +78,14 @@
           "200": {
             "description": "List of customers",
             "schema": {
-              "$ref": "#/definitions/Customer"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Customer"
+              }
             }
           },
-          "405": {
-            "description": "Invalid input"
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
           }
         }
       },
@@ -97,55 +104,50 @@
         ],
         "parameters": [
           {
-            "$ref": "#parameters/first_name"
+            "$ref": "#/parameters/first_name"
           },
           {
-            "$ref": "#parameters/last_name"
+            "$ref": "#/parameters/last_name"
           },
           {
-            "$ref": "#parameters/email_address"
+            "$ref": "#/parameters/email_address"
           },
           {
-            "$ref": "#parameters/phone"
+            "$ref": "#/parameters/phone"
           },
           {
-            "$ref": "#parameters/age_test"
+            "$ref": "#/parameters/age_test"
           },
           {
-            "$ref": "#parameters/age_test_date"
+            "$ref": "#/parameters/age_test_date"
           },
           {
-            "$ref": "#parameters/company"
+            "$ref": "#/parameters/company"
           },
           {
-            "$ref": "#parameters/street1"
+            "$ref": "#/parameters/street1"
           },
           {
-            "$ref": "#parameters/street2"
+            "$ref": "#/parameters/street2"
           },
           {
-            "$ref": "#parameters/city"
+            "$ref": "#/parameters/city"
           },
           {
-            "$ref": "#parameters/zone"
+            "$ref": "#/parameters/zone"
           },
           {
-            "$ref": "#parameters/postal_code"
+            "$ref": "#/parameters/postal_code"
           }
         ],
         "responses": {
-          "405": {
-            "description": "Invalid input"
+          "400": {
+            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+          },
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
     "/customer/{customer_id}": {
@@ -158,7 +160,7 @@
         "operationId": "getCustomer",
         "parameters": [
           {
-            "$ref": "#parameters/customer_id"
+            "$ref": "#/parameters/customer_id"
           },
           {
             "name": "with_tabs_data",
@@ -185,8 +187,11 @@
               "$ref": "#/definitions/Customer"
             }
           },
-          "404": {
-            "description": "Customer/User not found"
+          "400": {
+            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+          },
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
           }
         }
       },
@@ -205,61 +210,53 @@
         ],
         "parameters": [
           {
-            "$ref": "#parameters/customer_id"
+            "$ref": "#/parameters/customer_id"
           },
           {
-            "$ref": "#parameters/first_name"
+            "$ref": "#/parameters/first_name"
           },
           {
-            "$ref": "#parameters/last_name"
+            "$ref": "#/parameters/last_name"
           },
           {
-            "$ref": "#parameters/email_address"
+            "$ref": "#/parameters/email_address"
           },
           {
-            "$ref": "#parameters/phone"
+            "$ref": "#/parameters/phone"
           },
           {
-            "$ref": "#parameters/age_test"
+            "$ref": "#/parameters/age_test"
           },
           {
-            "$ref": "#parameters/age_test_date"
+            "$ref": "#/parameters/age_test_date"
           },
           {
-            "$ref": "#parameters/company"
+            "$ref": "#/parameters/company"
           },
           {
-            "$ref": "#parameters/street1"
+            "$ref": "#/parameters/street1"
           },
           {
-            "$ref": "#parameters/street2"
+            "$ref": "#/parameters/street2"
           },
           {
-            "$ref": "#parameters/city"
+            "$ref": "#/parameters/city"
           },
           {
-            "$ref": "#parameters/zone"
+            "$ref": "#/parameters/zone"
           },
           {
-            "$ref": "#parameters/postal_code"
+            "$ref": "#/parameters/postal_code"
           }
         ],
         "responses": {
           "400": {
-            "description": "Invalid input"
+            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
           },
-          "404": {
-            "description": "Customer not found"
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -270,7 +267,7 @@
         "operationId": "deleteCustomer",
         "parameters": [
           {
-            "$ref": "#parameters/customer_id"
+            "$ref": "#/parameters/customer_id"
           }
         ],
         "produces": [
@@ -283,8 +280,11 @@
               "$ref": "#/definitions/Customer"
             }
           },
-          "404": {
-            "description": "Customer/User not found"
+          "400": {
+            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+          },
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
           }
         }
       }
@@ -305,7 +305,7 @@
         ],
         "parameters": [
           {
-            "$ref": "#parameters/customer_id"
+            "$ref": "#/parameters/customer_id"
           },
           {
             "name": "reference_id",
@@ -342,18 +342,13 @@
           }
         ],
         "responses": {
-          "405": {
-            "description": "Invalid input"
+          "400": {
+            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+          },
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
     "/customer/{customer_id}/products/{customer_product_id}": {
@@ -372,7 +367,7 @@
         ],
         "parameters": [
           {
-            "$ref": "#parameters/customer_id"
+            "$ref": "#/parameters/customer_id"
           },
           {
             "name": "customer_product_id",
@@ -384,17 +379,12 @@
         ],
         "responses": {
           "400": {
-            "description": "Invalid input"
+            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+          },
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
     "/tickets/age-test": {
@@ -413,43 +403,35 @@
         ],
         "parameters": [
           {
-            "$ref": "#parameters/uid"
+            "$ref": "#/parameters/uid"
           },
           {
-            "$ref": "#parameters/ticket_age_test"
+            "$ref": "#/parameters/ticket_age_test"
           },
           {
-            "$ref": "#parameters/ticket_age_test_date"
+            "$ref": "#/parameters/ticket_age_test_date"
           },
           {
-            "$ref": "#parameters/ip_address"
+            "$ref": "#/parameters/ip_address"
           },
           {
-            "$ref": "#parameters/phone"
+            "$ref": "#/parameters/phone"
           },
           {
-            "$ref": "#parameters/staff_id"
+            "$ref": "#/parameters/staff_id"
           },
           {
-            "$ref": "#parameters/state_id"
+            "$ref": "#/parameters/state_id"
           }
         ],
         "responses": {
-          "400_NotFound": {
-            "description": "Customer/User not found."
+          "400": {
+            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
           },
-          "400_ValidationException": {
-            "description": "Invalid input."
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
     "/tickets/active-free-member/arp-emails": {
@@ -468,52 +450,44 @@
         ],
         "parameters": [
           {
-            "$ref": "#parameters/ticket_customer_id"
+            "$ref": "#/parameters/ticket_customer_id"
           },
           {
-            "$ref": "#parameters/email_reference_id"
+            "$ref": "#/parameters/email_reference_id"
           },
           {
-            "$ref": "#parameters/email_subject"
+            "$ref": "#/parameters/email_subject"
           },
           {
-            "$ref": "#parameters/email_content"
+            "$ref": "#/parameters/email_content"
           },
           {
-            "$ref": "#parameters/email_date"
+            "$ref": "#/parameters/email_date"
           },
           {
-            "$ref": "#parameters/email_view_status"
+            "$ref": "#/parameters/email_view_status"
           },
           {
-            "$ref": "#parameters/ip_address"
+            "$ref": "#/parameters/ip_address"
           },
           {
-            "$ref": "#parameters/phone"
+            "$ref": "#/parameters/phone"
           },
           {
-            "$ref": "#parameters/staff_id"
+            "$ref": "#/parameters/staff_id"
           },
           {
-            "$ref": "#parameters/state_id"
+            "$ref": "#/parameters/state_id"
           }
         ],
         "responses": {
-          "400_NotFound": {
-            "description": "Customer/User not found."
+          "400": {
+            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
           },
-          "400_ValidationException": {
-            "description": "Invalid input."
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
     "/tickets/active-free-member/arp-emails/{arp_email_id}": {
@@ -539,52 +513,44 @@
             "type": "integer"
           },
           {
-            "$ref": "#parameters/ticket_customer_id"
+            "$ref": "#/parameters/ticket_customer_id"
           },
           {
-            "$ref": "#parameters/email_subject"
+            "$ref": "#/parameters/email_subject"
           },
           {
-            "$ref": "#parameters/email_content"
+            "$ref": "#/parameters/email_content"
           },
           {
-            "$ref": "#parameters/email_date"
+            "$ref": "#/parameters/email_date"
           },
           {
-            "$ref": "#parameters/email_view_status"
+            "$ref": "#/parameters/email_view_status"
           },
           {
-            "$ref": "#parameters/ip_address"
+            "$ref": "#/parameters/ip_address"
           },
           {
-            "$ref": "#parameters/phone"
+            "$ref": "#/parameters/phone"
           },
           {
-            "$ref": "#parameters/staff_id"
+            "$ref": "#/parameters/staff_id"
           },
           {
-            "$ref": "#parameters/state_id"
+            "$ref": "#/parameters/state_id"
           },
           {
-            "$ref": "#parameters/ticket_id"
+            "$ref": "#/parameters/ticket_id"
           }
         ],
         "responses": {
-          "400_NotFound": {
-            "description": "Customer/User not found."
+          "400": {
+            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
           },
-          "400_ValidationException": {
-            "description": "Invalid input."
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
     "/tickets/active-free-member/webpage-visits": {
@@ -594,7 +560,7 @@
         ],
         "summary": "Add Webpage visits & Active Free Member ticket",
         "description": "Adds webpage visits records. Creates active free member ticket.",
-        "operationId": "addCustomerArpEmail",
+        "operationId": "addWebpageVisitAFMTicket",
         "consumes": [
           "application/json"
         ],
@@ -603,58 +569,75 @@
         ],
         "parameters": [
           {
-            "name": "customer_id",
+            "name": "webpage_visit_input",
             "in": "body",
-            "description": "Valid customer id"
-          },
-          {
-            "name": "customer_webpage_visits_data",
-            "in": "body",
-            "description": "List of customer webpage visits",
+            "description": "Webpage input to be created",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#definitions/WebpageVisit"
-              }
+              "$ref": "#/definitions/WebpageVisit"
             }
           }
         ],
         "responses": {
-          "400_NotFound": {
-            "description": "Customer/User not found."
+          "400": {
+            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
           },
-          "400_ValidationException": {
-            "description": "Invalid input."
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
           }
-        },
-        "security": [
+        }
+      }
+    },
+    "/tickets/multiple-product-click": {
+      "post": {
+        "tags": [
+          "ticket multiple product click"
+        ],
+        "summary": "Creates new Multiple Product Click ticket",
+        "description": "Creates new Multiple Product Click ticket",
+        "operationId": "addMultipleProductClickTicket",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "name": "multiple_product_click_input",
+            "in": "body",
+            "description": "Multiple product click to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WebpageVisit"
+            }
           }
-        ]
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/responses/CustomerNotFoundOrInvalidInput"
+          },
+          "401": {
+            "$ref": "#/responses/Standard401Unauthorized"
+          }
+        }
       }
     }
   },
   "securityDefinitions": {
-    "petstore_auth": {
-      "type": "oauth2",
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
-      }
-    },
     "api_key": {
       "type": "apiKey",
-      "name": "api_key",
+      "name": "X-Token",
       "in": "header"
     }
   },
+  "security": [
+    {
+      "api_key": [
+
+      ]
+    }
+  ],
   "parameters": {
     "per_page": {
       "name": "per_page",
@@ -834,6 +817,14 @@
       "type": "integer"
     }
   },
+  "responses": {
+    "CustomerNotFoundOrInvalidInput": {
+      "description": "Customer/User not found. <br>Invalid input."
+    },
+    "Standard401Unauthorized": {
+      "description": "Unauthorized access"
+    }
+  },
   "definitions": {
     "Customer": {
       "type": "object",
@@ -864,6 +855,27 @@
     },
     "WebpageVisit": {
       "type": "object",
+      "required": [
+        "customer_id",
+        "customer_webpage_visits_data"
+      ],
+      "properties": {
+        "customer_id": {
+          "type": "integer"
+        },
+        "customer_webpage_visits_data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WebpageVisitData"
+          }
+        }
+      },
+      "xml": {
+        "name": "WebpageVisit"
+      }
+    },
+    "WebpageVisitData": {
+      "type": "object",
       "properties": {
         "ticket_id": {
           "type": "integer"
@@ -888,14 +900,7 @@
           "type": "string",
           "format": "date-time"
         }
-      },
-      "xml": {
-        "name": "WebpageVisit"
       }
     }
-  },
-  "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
   }
 }
